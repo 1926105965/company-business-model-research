@@ -1,0 +1,285 @@
+# 研报模板（HTML）
+
+研报交付形态为单文件 HTML。本文件给出页面骨架、各章节的写作要求与图表配置。方括号内为写作提示，成稿时替换为实际内容。可视化细节见 `visual-guide.md`，来源标注见 `source-policy.md`。
+
+## 一、页面骨架
+
+直接以此骨架为起点，替换方括号内容并增删图表。样式与脚本全部内联，不引用外部资源。
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[公司名称]（[股票代码]）运营模式与风险研判</title>
+<style>
+  :root{
+    --up:#c0392b;        /* 上升 红 */
+    --down:#1e8449;      /* 下降 绿 */
+    --neutral:#5d6d7e;   /* 中性 灰蓝 */
+    --ink:#1c2833;
+    --ink-2:#566573;
+    --line:#d5dbdb;
+    --paper:#ffffff;
+    --bg:#f4f6f7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif;
+    line-height:1.75;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px 64px;background:var(--paper);}
+  nav.toc{position:sticky;top:0;z-index:10;background:var(--paper);
+    border-bottom:1px solid var(--line);padding:12px 24px;max-width:1100px;margin:0 auto;}
+  nav.toc a{color:var(--ink-2);text-decoration:none;margin-right:18px;font-size:14px;}
+  nav.toc a:hover{color:var(--ink);}
+  header.rpt{padding:44px 0 28px;border-bottom:2px solid var(--ink);}
+  header.rpt h1{font-size:28px;margin:0 0 14px;letter-spacing:.5px;}
+  .meta{font-size:13px;color:var(--ink-2);}
+  .meta span{margin-right:20px;white-space:nowrap;}
+  h2{font-size:21px;margin:44px 0 14px;padding-left:12px;border-left:5px solid var(--ink);}
+  h3{font-size:16px;margin:26px 0 10px;color:var(--ink-2);}
+  p{margin:10px 0;}
+  .cards{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0;}
+  .card{flex:1 1 320px;border:1px solid var(--line);border-left-width:5px;
+    border-radius:4px;padding:16px 18px;background:var(--paper);}
+  .card.struct{border-left-color:var(--down);}
+  .card.trans{border-left-color:var(--neutral);}
+  .card.stage{border-left-color:var(--up);}
+  .card h4{margin:0 0 8px;font-size:15px;}
+  .card p{margin:0;font-size:14px;color:var(--ink-2);}
+  figure{margin:26px 0;padding:18px;border:1px solid var(--line);border-radius:4px;background:var(--paper);}
+  figure .fig-body{width:100%;overflow-x:auto;}
+  figcaption{font-size:13px;color:var(--ink-2);margin-top:12px;line-height:1.65;}
+  figcaption .fig-title{color:var(--ink);font-weight:600;display:block;margin-bottom:4px;}
+  figcaption .fig-src{display:block;}
+  figcaption .fig-note{display:block;margin-top:6px;}
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14px;}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  th{background:#eef1f2;font-weight:600;}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+  .up{color:var(--up);}
+  .down{color:var(--down);}
+  .neutral{color:var(--neutral);}
+  ol,ul{padding-left:22px;}
+  li{margin:6px 0;}
+  .bracket{color:var(--ink-2);font-size:13px;}
+  footer.rpt{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink-2);}
+  @media print{
+    body{background:#fff;}
+    nav.toc{display:none;}
+    figure{break-inside:avoid;page-break-inside:avoid;}
+    h2{break-after:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <a href="#summary">核心结论</a>
+  <a href="#profile">公司概况</a>
+  <a href="#revenue">收入结构</a>
+  <a href="#risk">风险来源</a>
+  <a href="#switch">可转换性</a>
+  <a href="#robust">抗风险能力</a>
+  <a href="#transform">转型可行性</a>
+  <a href="#counter">另一面</a>
+  <a href="#caution">风险提示</a>
+  <a href="#conclusion">结论</a>
+  <a href="#advice">投资建议</a>
+  <a href="#sources">数据来源</a>
+</nav>
+
+<div class="wrap">
+
+<header class="rpt">
+  <h1>[公司名称]（[股票代码]）运营模式与风险研判</h1>
+  <div class="meta">
+    <span>报告日期：[YYYY-MM-DD]</span>
+    <span>数据截止：[最新报告期]</span>
+    <span>分析框架：三步追问法</span>
+  </div>
+</header>
+
+<h2 id="summary">核心结论</h2>
+<div class="cards">
+  <div class="card [struct|trans|stage]">
+    <h4>[该层面的判断，如"收入层面"]</h4>
+    <p>[一句判断]</p>
+  </div>
+  <div class="card [struct|trans|stage]">
+    <h4>[另一层面，如"利润层面"]</h4>
+    <p>[一句判断]</p>
+  </div>
+</div>
+<p>[在三到五句内说清：模式定位、风险位置、可转换性判断、判断失效的条件。]</p>
+
+<h2 id="profile">公司概况</h2>
+<p>[一页以内说清它是谁。不写历史沿革，只写理解业务必需的信息。]</p>
+<table>
+  <thead><tr><th>业务板块</th><th class="num">收入</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th></tr></thead>
+  <tbody>
+    <tr><td></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+    <tr><td><strong>合计</strong></td><td class="num"></td><td class="num">100%</td><td class="num"></td><td class="num"></td></tr>
+  </tbody>
+</table>
+
+<h2 id="revenue">收入结构：它靠什么挣钱</h2>
+<p>[第一步。落到具体收入构成，识别底盘。说明各类收入的现金流特征与可预测性。]</p>
+
+<figure>
+  <div class="fig-body">[图一：收入构成环形图或堆叠条形图]</div>
+  <figcaption>
+    <span class="fig-title">图 1　[收入构成与占比：各业务板块]</span>
+    <span class="fig-src">数据来源：[层级]·[文件名称与报告期]</span>
+    <span class="fig-note">读图要点：[该图支持什么判断]</span>
+  </figcaption>
+</figure>
+
+<h2 id="risk">风险来源：它最怕什么变化</h2>
+<h3>外部压力的来源</h3>
+<p>[按支付端、采购端、结算端三类分别说明。写明各自传导至价格、份额还是成本。]</p>
+
+<figure>
+  <div class="fig-body">[图二：关键财务指标的逐期折线图]</div>
+  <figcaption>
+    <span class="fig-title">图 2　[关键指标的逐期变化]</span>
+    <span class="fig-src">数据来源：[层级]·[文件名称与报告期]</span>
+    <span class="fig-note">读图要点：[趋势说明了什么]</span>
+  </figcaption>
+</figure>
+
+<h3>同业对照</h3>
+<p>[说明对照对象的选择依据，须为同行业、同模式、同收入结构。]</p>
+
+<figure>
+  <div class="fig-body">[图三：公司与可比公司的同期分组柱状图，营收与净利各一组]</div>
+  <figcaption>
+    <span class="fig-title">图 3　[同期营收与净利同比：公司与可比公司对照]</span>
+    <span class="fig-src">数据来源：[层级]·[各公司同期报告]</span>
+    <span class="fig-note">读图要点：[压力属行业性还是个体性]</span>
+  </figcaption>
+</figure>
+
+<h2 id="switch">可转换性：换不换得动</h2>
+<p>[第三步，全文关键。依次回答三个子问题。]</p>
+<p><strong>是否存在替代路径</strong>：[有／无。若有，是什么。]</p>
+<p><strong>替代路径的体量是否足够</strong>：[计算主业缺口的绝对金额，与替代业务的体量对照，说明按当前增速所需时间。]</p>
+<p><strong>转换的代价</strong>：[已投入的重资产、组织与渠道，量化转换成本的量级。]</p>
+
+<figure>
+  <div class="fig-body">[图四：主业缺口与替代业务体量的对照条形图或瀑布图]</div>
+  <figcaption>
+    <span class="fig-title">图 4　[主业缺口与替代业务体量对照]</span>
+    <span class="fig-src">数据来源：[层级]·[文件名称与报告期]</span>
+    <span class="fig-note">读图要点：[体量是否足以补足缺口]</span>
+  </figcaption>
+</figure>
+
+<p><strong>判断</strong>：[换不动／换得动但慢／换得动。对应风险类别。]</p>
+
+<h2 id="robust">抗风险能力的两层分辨</h2>
+<p><strong>第一层·来源</strong>：[属主动设计的部分与属周期巧合的部分分别是什么。]</p>
+<p><strong>第二层·可控性</strong>：[哪些在下一周期仍可沿用，哪些随窗口变化而失效。]</p>
+<p>[若抗风险能力来自周期错位而非制度设计，须明确指出。]</p>
+
+<h2 id="transform">转型路径的可行性</h2>
+<table>
+  <thead><tr><th>路径</th><th>基础</th><th>难点</th><th>见效时间</th></tr></thead>
+  <tbody><tr><td></td><td></td><td></td><td></td></tr></tbody>
+</table>
+<p>[方向正确与能否在所需时间内见效是两个问题，须分别作答。]</p>
+
+<h2 id="counter">需要承认的另一面</h2>
+<p>[列出对公司有利的事实与支撑数据。缺此节会使分析偏颇，可信度下降。]</p>
+
+<h2 id="caution">风险提示</h2>
+<ul>
+  <li><strong>数据边界</strong>：哪些数据未获取或标注为待核实，及其对结论的影响范围</li>
+  <li><strong>假设前提</strong>：分析基于哪些假设，假设不成立时结论如何变化</li>
+  <li><strong>外部风险</strong>：哪些政策或市场变化会推翻判断</li>
+  <li><strong>时点风险</strong>：分析基于截至某期的数据，此后的变化未纳入</li>
+</ul>
+
+<h2 id="conclusion">结论</h2>
+<p>[回应开篇提出的命题，明确作答。]</p>
+<p>[直接给出判断，不使用"综上所述""总而言之"这类结构。]</p>
+
+<h2 id="advice">给投资者的建议</h2>
+<h3>估值隐含的预期</h3>
+<p>[说明当前估值水平，并反推该价格已假设的经营结果。必须标注估值口径（TTM／静态／预期）、取数日期与来源。]</p>
+
+<h3>应当关注的指标</h3>
+<table>
+  <thead><tr><th>观察点</th><th>看什么</th><th>说明什么</th></tr></thead>
+  <tbody><tr><td></td><td></td><td class="neutral">恶化／改善</td></tr></tbody>
+</table>
+<p>[同时写明哪些指标不需关注，排除与结论无关的短期波动。]</p>
+
+<h3>按立场的应对</h3>
+<p>[按未持仓、已持仓、低风险偏好三类分别说明判断依据与需观察的条件。不给出目标价与买卖建议。]</p>
+
+<h3>边界说明</h3>
+<p>[说明估值取自哪个时点、市场情绪未纳入、建议基于公开信息、不构成投资决策依据。]</p>
+
+<h2 id="sources">数据来源</h2>
+<table>
+  <thead><tr>
+    <th>数据项</th><th>数值／口径</th><th>层级</th><th>来源名称</th>
+    <th>日期</th><th>定位</th><th>状态</th>
+  </tr></thead>
+  <tbody>
+    <tr><td></td><td></td><td>一级</td><td></td><td></td><td></td><td>已核实</td></tr>
+  </tbody>
+</table>
+
+<footer class="rpt">
+  <p>本报告依据公开信息编制，所引数据均标注来源与层级，未核实信息不作为论据。报告不构成投资决策依据。</p>
+</footer>
+
+</div>
+</body>
+</html>
+```
+
+## 二、图表配置要求
+
+正文须含不少于四张图表，分别承载下列判断。图表类型的选择依据见 `visual-guide.md`。
+
+| 序号 | 承载的判断 | 建议图表类型 |
+|---|---|---|
+| 图 1 | 收入的构成与底盘所在 | 环形图或堆叠条形图 |
+| 图 2 | 外部压力在财务指标上的时间轨迹 | 折线图 |
+| 图 3 | 压力属行业性还是个体性 | 分组柱状图，公司与可比公司并列 |
+| 图 4 | 替代路径的体量能否补足主业缺口 | 对照条形图或瀑布图 |
+| 图 5（可选） | 公司与同业在多项指标上的相对位置 | 雷达图或热力表 |
+| 图 6（可选） | 既定目标与当前水平的距离 | 进度条形图 |
+
+每张图表下方的三行标注（标题、来源、读图要点）不可省略。图表中的数据须与正文一致，取整规则统一。
+
+## 三、写作检查
+
+成稿前逐项核对：
+
+- 核心结论可在三到五句内完整表述
+- 每一步追问均落在具体数据上，无空泛论断
+- 同业对照已做，且给出行业性或个体性的判断
+- 第三步给出明确的可转换性答案
+- 结论已分层，收入层面与利润层面分别表述
+- 已写入"需要承认的另一面"
+- 风险提示写清数据边界与假设前提
+- 图表不少于四张，且覆盖收入构成、时间趋势、同业对照、体量缺口四类判断
+- 每张图表的标题、来源、读图要点三行齐全
+- 涨跌配色遵循 A 股惯例，且全篇一致
+- 若有投资建议节：估值标注了口径、取数日期与来源
+- 若有投资建议节：观察点控制在三到四个，且可由公开信息验证
+- 若有投资建议节：未出现"建议买入""目标价"这类表述
+- 数据来源表七个字段齐全，层级与状态无遗漏
+- 正文数字控制在十处以内，精确数据收进来源表
+- 每个数字标了来源，无无来源数字
+- 未获取的数据如实标注，未用推测填充
+- 页面不依赖外部资源，可离线正常显示与打印
+- 已按 `lieflat-less-ai-tone` 规则检查，并符合本技能的学术语体要求
