@@ -60,6 +60,20 @@
   .src-note{font-size:12px;color:var(--ink-2);margin-top:-6px;}
   footer.rpt{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
     font-size:12px;color:var(--ink-2);}
+  /* 结论卡展开依据 */
+  .card details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px;}
+  .card details summary{cursor:pointer;font-size:13px;color:var(--ink-2);list-style:none;}
+  .card details summary::-webkit-details-marker{display:none;}
+  .card details summary::before{content:"\25B8 ";}
+  .card details[open] summary::before{content:"\25BE ";}
+  .card details .basis{font-size:13px;color:var(--ink-2);margin-top:6px;line-height:1.7;}
+  /* 数据来源表筛选 */
+  .filters{margin:14px 0 6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .filters span{font-size:13px;color:var(--ink-2);}
+  .filters button{font:inherit;font-size:13px;padding:4px 12px;border:1px solid var(--line);
+    background:var(--paper);color:var(--ink-2);border-radius:14px;cursor:pointer;}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+  tr.hide{display:none;}
   @media (max-width:768px){
     body{font-size:14px;line-height:1.7;}
     .wrap{padding:0 14px 40px;}
@@ -81,6 +95,8 @@
     nav.toc{display:none;}
     figure{break-inside:avoid;page-break-inside:avoid;}
     h2{break-after:avoid;}
+    .filters{display:none;}
+    tr.hide{display:table-row;}
   }
 </style>
 </head>
@@ -88,6 +104,7 @@
 
 <nav class="toc">
   <a href="#summary">核心结论</a>
+  <a href="#industry">行业环境</a>
   <a href="#profile">公司概况</a>
   <a href="#revenue">收入结构</a>
   <a href="#risk">风险敞口</a>
@@ -115,13 +132,46 @@
   <div class="card trans">
     <h4>收入层面</h4>
     <p>客户关系型代工模式仍具资产属性。2026 年上半年收入逆势增长，同期可比公司中已有收缩者，显示其订单获取能力未受损。</p>
+    <details>
+      <summary>看依据</summary>
+      <div class="basis">2026 年上半年营业收入 17.73 亿元，同比 +12.83%；境外收入 15.34 亿元，占比 86.54%（据 2026 年半年度报告，多源转述）。同期嘉益股份营收同比 −26.10%，同富股份 +15%（据各公司 2026 年半年度报告，多源转述）。</div>
+    </details>
   </div>
   <div class="card stage">
     <h4>利润层面</h4>
     <p>模式开始构成负担。同样的收入规模下利润大幅收缩，系汇率这一外生变量通过低净利率结构放大的结果。</p>
+    <details>
+      <summary>看依据</summary>
+      <div class="basis">2026 年上半年归母净利润 4887 万元，同比 −46.50%；净利率 2.76%（据 2026 年半年度报告，多源转述）。财务费用 5476.54 万元，同比 +829.88%；汇兑损益由上年同期 +885 万元转为 −5378 万元（财经媒体转述，待核实）。</div>
+    </details>
   </div>
 </div>
 <p>哈尔斯（深交所 002615）以境外品牌客户代工（OEM/ODM）为主要收入来源，底盘为长期积累的客户关系，而非自有品牌。风险敞口不在需求端，而在结算端：收入以美元计价、成本以人民币发生，且净利率仅约 2.8%，汇率变动对利润的边际影响极大。同群对照显示，三家可比公司利润同步大幅下降，说明利润压力属行业性；而该公司与另一家可比公司收入仍保持增长，说明其在行业承压期份额未失。综合第三步判断，替代路径（境外产能与自有品牌）方向正确但短期内无法形成支撑，结论属过渡期风险。若泰国基地成本未能于 2026 年末至 2027 年初拉平，该判断须上调为结构性风险。</p>
+
+<h2 id="industry">行业环境</h2>
+<p>先建立行业参照，再分析公司。跳过行业直接分析公司，会使后文关于行业性与个体性的判断失去依据，也使该公司的低净利率无从解释。</p>
+
+<h3>市场容量与生命周期</h3>
+<p>中国杯壶行业市场规模 2021 年为 326.03 亿元，2026 年预测值 564.66 亿元，五年增幅约七成，年化约 11%（行业研究机构数据，待核实）。中国保温杯年产量约 8 亿只，占全球产量约六成；2025 年全球保温杯市场规模 85.6 亿美元，中国市场约占 38%，当年同比增幅 11.2%。</p>
+<p>按上述数据判断，行业处于成长期后段。产量占全球六成说明份额扩张的空间已经有限，增长动力从新增渗透转向结构性升级，例如容量 500 毫升以上产品市占率由 2020 年的 22% 升至 2025 年的 41%。这一判断对后文有意义：行业若已接近成熟期，转型的时间窗口取决于结构性升级而非总量扩张。</p>
+
+<h3>行业盈利水平与竞争结构</h3>
+<p>中国杯壶市场的集中度极低，CR4 不足 20%，低于家电、美妆等成熟品类。全球前十大企业合计份额约 55%。市场结构呈"大而散"。</p>
+<p>低集中度与买方强势共同压低了代工环节的盈利水平。欧美市场约八成的头部保温杯品牌在浙江"永武缙"集群（永康、武义、缙云）代工生产，该集群杯壶产量与出口量均占全国七成以上。代工方面对的是少数几个国际品牌方，产品同质化程度高，议价能力弱。这一行业结构是该公司净利率仅 2.76% 的成因，而非其经营效率问题。</p>
+<p>行业盈利能力呈现两端分化：品牌端凭借溢价维持较高毛利，代工端靠规模与效率维持低毛利、高周转。两家可比公司的净利率差异亦源于此，嘉益股份 16.46% 与同富股份的较低水平反映的是客户结构与产品结构的差别。</p>
+
+<h3>成本与技术特征</h3>
+<p>主要原料为不锈钢与塑料，其中不锈钢受钢铝关税与原料价格波动影响。2025 年美国对钢铝产品加征关税，成本压力沿供应链传导至代工环节，代工方因议价能力弱而难以全额转嫁。</p>
+<p>行业技术迭代集中在四条线：真空多层绝热结构（约占专利 34%）、智能温显与提醒模块（28%）、316L 及钛合金材料应用（19%）、环保涂层与防滑设计（11%）。2025 年行业专利申请超过 2400 件，中国申请人占 62%。技术门槛不高，构不成准入壁垒，但功能化细分（磁吸杯盖、茶水分离、双饮口）成为品牌差异化的突破口。</p>
+
+<h3>规模经济与范围经济</h3>
+<p>规模经济体现在产业链协同而非单厂产能。在"永武缙"集群内，一小时车程可配齐全部配件，新设计数天内可转为可量产样品。该协同能力使厂商能同时承接国际品牌的大批量订单与跨境电商的小单快返。</p>
+<p>这一优势具有两面性。它是该公司响应速度的基础，但同一集群内集聚了 2900 余家生产及配套企业，优势并非独家。截至 2025 年底，永康一市杯壶产业年产值 180 亿元，规模以上工业企业 248 家。换言之，产业生态是行业公共品，不构成公司层面的护城河。</p>
+<p>范围经济有限。杯壶品类相对单一，同一产线难以横向复用至其他品类，与设备耗材绑定型企业可跨产品线复用客户基础的结构不同。</p>
+
+<h3>纵向整合与客户结构</h3>
+<p>下游为海外品牌方，集中度高且议价能力强。该公司前五大客户合计占收入约 68.4%，客户集中度显著高于下游分散型企业。上游为不锈钢板材与塑料原料，供应分散，未构成议价压力。</p>
+<p>行业近年出现向下游品牌端延伸的趋势，头部代工企业陆续培育自有品牌。该趋势的方向合理，但需注意：品牌端与代工端面向的是不同的竞争要素，前者依赖渠道与营销投入，后者依赖成本与交付能力，转换并非产能的简单复用。</p>
 
 <h2 id="profile">公司概况</h2>
 <p>浙江永康的保温器皿制造企业，1985 年创立，2011 年上市。主营业务为不锈钢及塑料保温器皿的研发、生产与销售，以境外品牌客户的代工订单为主要收入来源，客户包括 YETI、Stanley、Owala、Brumate 等。2026 年上半年境外收入占比 86.54%，前五大客户合计贡献接近七成收入。</p>
@@ -130,12 +180,12 @@
 <table>
   <thead><tr><th>收入维度</th><th class="num">金额（亿元）</th><th class="num">占比</th><th class="num">同比</th><th>说明</th></tr></thead>
   <tbody>
-    <tr><td>境外收入</td><td class="num">15.34</td><td class="num">86.54%</td><td class="num up">增长</td><td>以美元结算为主</td></tr>
-    <tr><td>境内收入</td><td class="num">2.39</td><td class="num">13.46%</td><td class="num neutral">未单独披露</td><td>自有品牌与内销</td></tr>
-    <tr><td><strong>合计</strong></td><td class="num"><strong>17.73</strong></td><td class="num">100%</td><td class="num up"><strong>+12.83%</strong></td><td>2026 年上半年</td></tr>
+    <tr data-level="2" data-status="ok"><td>境外收入</td><td class="num">15.34</td><td class="num">86.54%</td><td class="num up">增长</td><td>以美元结算为主</td></tr>
+    <tr data-level="2" data-status="ok"><td>境内收入</td><td class="num">2.39</td><td class="num">13.46%</td><td class="num neutral">未单独披露</td><td>自有品牌与内销</td></tr>
+    <tr data-level="2" data-status="ok"><td><strong>合计</strong></td><td class="num"><strong>17.73</strong></td><td class="num">100%</td><td class="num up"><strong>+12.83%</strong></td><td>2026 年上半年</td></tr>
   </tbody>
 </table>
-<p class="src-note">数据来源：一级·《2026 年半年度报告》；境内收入金额由合计与境外收入推算，口径为合并报表营业收入。</p>
+<p class="src-note">数据来源：据《2026 年半年度报告》（多源转述）；境内收入金额由合计与境外收入推算，口径为合并报表营业收入。</p>
 
 <h2 id="revenue">收入结构：它靠什么挣钱</h2>
 <p>收入来源单一，为境外品牌客户的代工订单。按客户类型区分，可分为国际品牌客户订单与自有品牌销售两类，前者占绝对多数。</p>
@@ -146,8 +196,8 @@
   <div class="fig-body">
     <svg viewBox="0 0 680 300" width="100%" height="300" role="img" aria-label="境外与境内收入占比环形图">
       <g transform="translate(180,150)">
-        <circle r="80" fill="none" stroke="#1e8449" stroke-width="42"/>
-        <path d="M 0 0 L 0 -80 A 80 80 0 0 1 77.6 19.4 Z" fill="#f39c12" opacity="0.85"/>
+        <circle r="80" fill="none" stroke="#1e8449" stroke-width="42"><title>境外收入 15.34 亿元，占比 86.54%</title></circle>
+        <path d="M 0 0 L 0 -80 A 80 80 0 0 1 77.6 19.4 Z" fill="#f39c12" opacity="0.85"><title>境内收入 2.39 亿元，占比 13.46%</title></path>
         <circle r="59" fill="#ffffff"/>
         <text y="-6" text-anchor="middle" font-size="24" fill="#1c2833" font-weight="600">86.5%</text>
         <text y="16" text-anchor="middle" font-size="12" fill="#566573">境外收入占比</text>
@@ -168,7 +218,7 @@
   </div>
   <figcaption>
     <span class="fig-title">图 1　2026 年上半年收入构成：境外与境内占比</span>
-    <span class="fig-src">数据来源：一级·《2026 年半年度报告》</span>
+    <span class="fig-src">数据来源：据《2026 年半年度报告》（多源转述）</span>
     <span class="fig-note">读图要点：境外收入占比接近九成，收入结构高度依赖单一市场，汇率与关税构成主要暴露面。</span>
   </figcaption>
 </figure>
@@ -191,20 +241,20 @@
       <!-- 左图 净利率柱 -->
       <g transform="translate(60,40)">
         <line x1="0" y1="200" x2="240" y2="200" stroke="#d5dbdb"/>
-        <rect x="20" y="88" width="56" height="112" fill="#c0392b" opacity="0.9"/>
+        <rect x="20" y="88" width="56" height="112" fill="#c0392b" opacity="0.9"><title>2025 年全年净利率 9.65%</title></rect>
         <text x="48" y="78" text-anchor="middle" font-size="13" fill="#c0392b" font-weight="600">9.65%</text>
         <text x="48" y="216" text-anchor="middle" font-size="11.5" fill="#566573">2025 全年</text>
-        <rect x="140" y="168" width="56" height="32" fill="#1e8449" opacity="0.9"/>
+        <rect x="140" y="168" width="56" height="32" fill="#1e8449" opacity="0.9"><title>2026 年上半年净利率 2.76%</title></rect>
         <text x="168" y="158" text-anchor="middle" font-size="13" fill="#1e8449" font-weight="600">2.76%</text>
         <text x="168" y="216" text-anchor="middle" font-size="11.5" fill="#566573">2026 上半年</text>
       </g>
       <!-- 右图 财务费用柱 -->
       <g transform="translate(360,40)">
         <line x1="0" y1="200" x2="240" y2="200" stroke="#d5dbdb"/>
-        <rect x="20" y="188" width="56" height="12" fill="#5d6d7e" opacity="0.75"/>
+        <rect x="20" y="188" width="56" height="12" fill="#5d6d7e" opacity="0.75"><title>2025 年同期财务费用 589 万元</title></rect>
         <text x="48" y="178" text-anchor="middle" font-size="13" fill="#5d6d7e" font-weight="600">589</text>
         <text x="48" y="216" text-anchor="middle" font-size="11.5" fill="#566573">2025 同期</text>
-        <rect x="140" y="46" width="56" height="154" fill="#c0392b" opacity="0.9"/>
+        <rect x="140" y="46" width="56" height="154" fill="#c0392b" opacity="0.9"><title>2026 年上半年财务费用 5477 万元</title></rect>
         <text x="168" y="36" text-anchor="middle" font-size="13" fill="#c0392b" font-weight="600">5477</text>
         <text x="168" y="216" text-anchor="middle" font-size="11.5" fill="#566573">2026 上半年</text>
       </g>
@@ -215,7 +265,7 @@
   </div>
   <figcaption>
     <span class="fig-title">图 2　净利率与财务费用的同期对比</span>
-    <span class="fig-src">数据来源：一级·《2025 年年度报告》《2026 年半年度报告》（财务费用金额为推算值，待与年报核对）</span>
+    <span class="fig-src">数据来源：据《2025 年年度报告》与《2026 年半年度报告》（多源转述；财务费用金额为推算值，待核实）</span>
     <span class="fig-note">读图要点：净利率降至约 2.8% 的同时财务费用大幅攀升，说明利润收缩的主要成因在结算端，而非收入端。</span>
   </figcaption>
 </figure>
@@ -233,11 +283,11 @@
     <g transform="translate(60,40)">
       <line x1="0" y1="100" x2="270" y2="100" stroke="#8b949e" stroke-width="1"/>
       <text x="-9" y="104" text-anchor="end" font-size="10.5" fill="#566573">0</text>
-      <rect x="18" y="28.2" width="46" height="71.8" fill="#c0392b" opacity="0.92"/>
+      <rect x="18" y="28.2" width="46" height="71.8" fill="#c0392b" opacity="0.92"><title>哈尔斯 2026 年上半年营收同比 +12.83%</title></rect>
       <text x="41" y="20.2" text-anchor="middle" font-size="12.5" fill="#c0392b" font-weight="600">+12.8%</text>
-      <rect x="108" y="100" width="46" height="146.0" fill="#1e8449" opacity="0.85"/>
+      <rect x="108" y="100" width="46" height="146.0" fill="#1e8449" opacity="0.85"><title>嘉益股份 2026 年上半年营收同比 −26.10%</title></rect>
       <text x="131" y="262.0" text-anchor="middle" font-size="12.5" fill="#1e8449" font-weight="600">−26.1%</text>
-      <rect x="198" y="16.1" width="46" height="83.9" fill="#c0392b" opacity="0.55"/>
+      <rect x="198" y="16.1" width="46" height="83.9" fill="#c0392b" opacity="0.55"><title>同富股份 2026 年上半年营收同比 +15%</title></rect>
       <text x="221" y="8.1" text-anchor="middle" font-size="12.5" fill="#c0392b" font-weight="600">+15.0%</text>
       <text x="41" y="292" text-anchor="middle" font-size="11.5" fill="#1c2833">哈尔斯</text>
       <text x="131" y="292" text-anchor="middle" font-size="11.5" fill="#1c2833">嘉益股份</text>
@@ -246,11 +296,11 @@
     <g transform="translate(380,40)">
       <line x1="0" y1="100" x2="270" y2="100" stroke="#8b949e" stroke-width="1"/>
       <text x="-9" y="104" text-anchor="end" font-size="10.5" fill="#566573">0</text>
-      <rect x="18" y="100" width="46" height="146.0" fill="#1e8449" opacity="0.92"/>
+      <rect x="18" y="100" width="46" height="146.0" fill="#1e8449" opacity="0.92"><title>哈尔斯 2026 年上半年归母净利润同比 −46.50%</title></rect>
       <text x="41" y="262.0" text-anchor="middle" font-size="12.5" fill="#1e8449" font-weight="600">−46.5%</text>
-      <rect x="108" y="100" width="46" height="138.5" fill="#1e8449" opacity="0.85"/>
+      <rect x="108" y="100" width="46" height="138.5" fill="#1e8449" opacity="0.85"><title>嘉益股份 2026 年上半年归母净利润同比 −44.10%</title></rect>
       <text x="131" y="254.5" text-anchor="middle" font-size="12.5" fill="#1e8449" font-weight="600">−44.1%</text>
-      <rect x="198" y="100" width="46" height="125.6" fill="#1e8449" opacity="0.55"/>
+      <rect x="198" y="100" width="46" height="125.6" fill="#1e8449" opacity="0.55"><title>同富股份 2026 年上半年归母净利润同比 −40.00%</title></rect>
       <text x="221" y="241.6" text-anchor="middle" font-size="12.5" fill="#1e8449" font-weight="600">−40.0%</text>
       <text x="41" y="292" text-anchor="middle" font-size="11.5" fill="#1c2833">哈尔斯</text>
       <text x="131" y="292" text-anchor="middle" font-size="11.5" fill="#1c2833">嘉益股份</text>
@@ -260,7 +310,7 @@
   </div>
   <figcaption>
     <span class="fig-title">图 3　2026 年上半年营收与归母净利润同比：公司与可比公司对照</span>
-    <span class="fig-src">数据来源：一级·各公司 2026 年半年度报告</span>
+    <span class="fig-src">数据来源：据各公司 2026 年半年度报告（多源转述）</span>
     <span class="fig-note">读图要点：零线以上为增长，以下为下降，柱长与数值成比例。三家利润同步大幅下降，说明利润压力源于行业共同因素；收入方向分化而哈尔斯保持增长，说明其份额未失，问题不在需求端。</span>
   </figcaption>
 </figure>
@@ -277,15 +327,15 @@
     <svg viewBox="0 0 680 260" width="100%" height="260" role="img" aria-label="主业规模与替代路径体量对照图">
       <g font-size="12" fill="#1c2833">
         <text x="20" y="40">境外代工收入</text>
-        <rect x="150" y="26" width="420" height="20" fill="#1e8449" opacity="0.85"/>
+        <rect x="150" y="26" width="420" height="20" fill="#1e8449" opacity="0.85"><title>境外代工收入 15.34 亿元</title></rect>
         <text x="580" y="41" font-size="12.5" fill="#1e8449" font-weight="600">15.34 亿</text>
 
         <text x="20" y="90">泰国基地收入</text>
-        <rect x="150" y="76" width="96" height="20" fill="#5d6d7e" opacity="0.8"/>
+        <rect x="150" y="76" width="96" height="20" fill="#5d6d7e" opacity="0.8"><title>泰国基地收入 3.51 亿元</title></rect>
         <text x="256" y="91" font-size="12.5" fill="#5d6d7e" font-weight="600">3.51 亿</text>
 
         <text x="20" y="140">自有品牌收入</text>
-        <rect x="150" y="126" width="38" height="20" fill="#95a5a6"/>
+        <rect x="150" y="126" width="38" height="20" fill="#95a5a6"><title>自有品牌收入，占比低于泰国基地</title></rect>
         <text x="198" y="141" font-size="12.5" fill="#566573" font-weight="600">占比更低</text>
       </g>
       <line x1="20" y1="176" x2="620" y2="176" stroke="#d5dbdb"/>
@@ -297,7 +347,7 @@
   </div>
   <figcaption>
     <span class="fig-title">图 4　主业规模与替代路径体量对照</span>
-    <span class="fig-src">数据来源：一级·《2026 年半年度报告》（自有品牌收入未单独披露）</span>
+    <span class="fig-src">数据来源：据《2026 年半年度报告》（多源转述；自有品牌收入未单独披露）</span>
     <span class="fig-note">读图要点：替代路径体量远低于主业，短期内无法承担利润支撑职能，转换处于"有路径但接不住"的状态。</span>
   </figcaption>
 </figure>
@@ -351,19 +401,19 @@
 <table>
   <thead><tr><th>行业特征</th><th>状态</th><th>说明</th></tr></thead>
   <tbody>
-    <tr><td>产业盈利水平及变动趋势</td><td>部分</td><td>仅取三家可比公司 2026 年上半年同期数据，未取得行业整体盈利水平的历史序列</td></tr>
-    <tr><td>市场规模和增长率</td><td>未覆盖</td><td>未取得杯壶行业市场规模与增速的公开统计</td></tr>
-    <tr><td>行业生命周期阶段</td><td>未覆盖</td><td>未作阶段判断，故替代路径的时间窗口缺少行业层面的依据</td></tr>
-    <tr><td>技术进步速度</td><td>未覆盖</td><td>未展开</td></tr>
-    <tr><td>规模经济与经验影响</td><td>部分</td><td>仅从客户认证与验厂成本说明黏性，未分析单位成本的规模曲线</td></tr>
-    <tr><td>范围经济效应</td><td>未覆盖</td><td>未展开</td></tr>
-    <tr><td>产能利用情况</td><td>部分</td><td>仅涉及泰国基地产能，未取得行业产能利用率</td></tr>
-    <tr><td>进入与退出壁垒</td><td>部分</td><td>认证、验厂与供应链切换成本即为壁垒，但未作系统化表述</td></tr>
-    <tr><td>纵向整合程度</td><td>未覆盖</td><td>未展开</td></tr>
-    <tr><td>资源需求与供应状况</td><td>部分</td><td>提及钢材与塑料原料及关税，未展开供应格局</td></tr>
-    <tr><td>客户需求与条件</td><td>部分</td><td>提及客户库存调整风险，未分析终端需求特征</td></tr>
-    <tr><td>产品技术特征与主要参与者</td><td>部分</td><td>已点名主要客户，未铺开国内同行格局</td></tr>
-    <tr><td>竞争者数量与分布</td><td>部分</td><td>仅取两家可比公司，未取得行业集中度指标</td></tr>
+    <tr data-level="2" data-status="ok"><td>产业盈利水平及变动趋势</td><td>部分</td><td>仅取三家可比公司 2026 年上半年同期数据，未取得行业整体盈利水平的历史序列</td></tr>
+    <tr data-level="2" data-status="ok"><td>市场规模和增长率</td><td>未覆盖</td><td>未取得杯壶行业市场规模与增速的公开统计</td></tr>
+    <tr data-level="2" data-status="ok"><td>行业生命周期阶段</td><td>未覆盖</td><td>未作阶段判断，故替代路径的时间窗口缺少行业层面的依据</td></tr>
+    <tr data-level="2" data-status="ok"><td>技术进步速度</td><td>未覆盖</td><td>未展开</td></tr>
+    <tr data-level="2" data-status="ok"><td>规模经济与经验影响</td><td>部分</td><td>仅从客户认证与验厂成本说明黏性，未分析单位成本的规模曲线</td></tr>
+    <tr data-level="2" data-status="ok"><td>范围经济效应</td><td>未覆盖</td><td>未展开</td></tr>
+    <tr data-level="2" data-status="ok"><td>产能利用情况</td><td>部分</td><td>仅涉及泰国基地产能，未取得行业产能利用率</td></tr>
+    <tr data-level="2" data-status="ok"><td>进入与退出壁垒</td><td>部分</td><td>认证、验厂与供应链切换成本即为壁垒，但未作系统化表述</td></tr>
+    <tr data-level="2" data-status="ok"><td>纵向整合程度</td><td>未覆盖</td><td>未展开</td></tr>
+    <tr data-level="2" data-status="ok"><td>资源需求与供应状况</td><td>部分</td><td>提及钢材与塑料原料及关税，未展开供应格局</td></tr>
+    <tr data-level="2" data-status="ok"><td>客户需求与条件</td><td>部分</td><td>提及客户库存调整风险，未分析终端需求特征</td></tr>
+    <tr data-level="2" data-status="ok"><td>产品技术特征与主要参与者</td><td>部分</td><td>已点名主要客户，未铺开国内同行格局</td></tr>
+    <tr data-level="2" data-status="ok"><td>竞争者数量与分布</td><td>部分</td><td>仅取两家可比公司，未取得行业集中度指标</td></tr>
   </tbody>
 </table>
 <p>其中三项对结论影响较大，需要说明。净利率不足 3% 这一事实已由财务数据确认，但其行业成因（本行业的盈利水平区间与议价结构）未取得数据，故本报告只将其作为放大风险的参数，未解释其形成机制。“利润压力属行业性”的判断依据是三家公司同期同向下滑，样本仅两家可比公司，严格说不足以代表行业整体。替代路径的时间窗口取决于行业生命周期，该维度未覆盖，故对转型时点的判断只能落在公司自身的产能进度上。</p>
@@ -378,10 +428,10 @@
 <table>
   <thead><tr><th>观察点</th><th>看什么</th><th>说明什么</th></tr></thead>
   <tbody>
-    <tr><td>泰国基地成本</td><td>能否在 2026 年末至 2027 年初达产，单位成本是否接近境内水平</td><td class="neutral">成本拉平则过渡期判断成立；持续不能拉平则须上调为结构性问题</td></tr>
-    <tr><td>毛利率</td><td>环比是否连续两到三个季度改善</td><td class="neutral">改善表明价格传导能力恢复或成本压力缓解</td></tr>
-    <tr><td>汇兑损益</td><td>财务费用中汇兑损益的正负与金额</td><td class="neutral">由负转正是利润修复最直接的信号</td></tr>
-    <tr><td>客户订单变化</td><td>产能利用率与主要客户的订单表述</td><td class="neutral">该指标通常早于财务数据反映份额变化</td></tr>
+    <tr data-level="2" data-status="ok"><td>泰国基地成本</td><td>能否在 2026 年末至 2027 年初达产，单位成本是否接近境内水平</td><td class="neutral">成本拉平则过渡期判断成立；持续不能拉平则须上调为结构性问题</td></tr>
+    <tr data-level="2" data-status="ok"><td>毛利率</td><td>环比是否连续两到三个季度改善</td><td class="neutral">改善表明价格传导能力恢复或成本压力缓解</td></tr>
+    <tr data-level="2" data-status="ok"><td>汇兑损益</td><td>财务费用中汇兑损益的正负与金额</td><td class="neutral">由负转正是利润修复最直接的信号</td></tr>
+    <tr data-level="2" data-status="ok"><td>客户订单变化</td><td>产能利用率与主要客户的订单表述</td><td class="neutral">该指标通常早于财务数据反映份额变化</td></tr>
   </tbody>
 </table>
 <p><strong>不需过度关注的指标为营业收入增速。</strong>该公司的收入增长在本轮并非问题所在，2026 年上半年收入增长 12.83% 而利润下降 46.50%，说明收入与利润已经脱钩。在汇率压力未缓解的条件下，收入增长甚至可能伴随单位盈利能力的进一步下降，据收入增长推断经营改善会得出相反结论。</p>
@@ -395,33 +445,72 @@
 <p>本节估值数据取自 2026 年 9 月 18 日收盘价，市场情绪、资金面与政策预期未纳入分析。结论基于公开信息，数据核实状态见数据来源表。本节内容为判断依据与观察条件的陈述，不构成投资决策依据。</p>
 
 <h2 id="sources">数据来源</h2>
+<div class="filters">
+  <span>筛选：</span>
+  <button type="button" data-filter="all" aria-pressed="true">全部</button>
+  <button type="button" data-filter="level1" aria-pressed="false">一级来源</button>
+  <button type="button" data-filter="level2" aria-pressed="false">二级来源</button>
+  <button type="button" data-filter="pending" aria-pressed="false">待核实</button>
+</div>
+<p class="src-note">本报告数据均通过公开渠道检索获得，未取得定期报告原件，故层级统一标注为二级。层级描述的是数据的权威出处与本报告的获取途径，不表示已逐项核对原件。定位列写明实际获取渠道与上游出处。本示例产出较早，来源渠道未逐条留存原始链接，故来源名称按渠道类型概述；定位列的信息完整度不及本仓库的另一份示例。</p>
 <table>
   <thead><tr>
     <th>数据项</th><th>数值／口径</th><th>层级</th><th>来源名称</th><th>日期</th><th>定位</th><th>状态</th>
   </tr></thead>
   <tbody>
-    <tr><td>2026H1 营业收入</td><td>17.73 亿元，合并报表</td><td>一级</td><td>2026 年半年度报告</td><td>2026-08</td><td>利润表</td><td>已核实</td></tr>
-    <tr><td>2026H1 归母净利润</td><td>4887 万元，同比 −46.50%</td><td>一级</td><td>2026 年半年度报告</td><td>2026-08</td><td>利润表</td><td>已核实</td></tr>
-    <tr><td>2026H1 境外收入</td><td>15.34 亿元，占比 86.54%</td><td>一级</td><td>2026 年半年度报告</td><td>2026-08</td><td>分地区经营情况</td><td>已核实</td></tr>
-    <tr><td>2025 年营业收入</td><td>32.38 亿元，同比 −2.80%</td><td>一级</td><td>2025 年年度报告</td><td>2026-04</td><td>利润表</td><td>已核实</td></tr>
-    <tr><td>2025 年归母净利润</td><td>7020 万元，同比 −75.50%</td><td>一级</td><td>2025 年年度报告</td><td>2026-04</td><td>利润表</td><td>已核实</td></tr>
-    <tr><td>2026H1 经营活动现金流</td><td>−3473.67 万元</td><td>一级</td><td>2026 年半年度报告</td><td>2026-08</td><td>现金流量表</td><td>已核实</td></tr>
-    <tr><td>2026H1 净利率</td><td>2.76%，由净利润与收入计算</td><td>一级</td><td>2026 年半年度报告</td><td>2026-08</td><td>自行计算</td><td>已核实</td></tr>
-    <tr><td>2026H1 财务费用</td><td>5476.54 万元，同比 +829.88%</td><td>二级</td><td>财经媒体转述半年报</td><td>2026-08</td><td>—</td><td>待核实</td></tr>
-    <tr><td>2026H1 汇兑损益</td><td>由上年同期 +885 万元转为 −5378 万元</td><td>二级</td><td>财经媒体转述半年报</td><td>2026-08</td><td>—</td><td>待核实</td></tr>
-    <tr><td>泰国基地经营数据</td><td>2026H1 收入 3.51 亿元，净亏 3402 万元（含汇兑损失 2765 万元）</td><td>二级</td><td>财经媒体转述半年报</td><td>2026-08</td><td>—</td><td>待核实</td></tr>
-    <tr><td>客户集中度</td><td>前五大客户占收入约 68.4%</td><td>二级</td><td>媒体转述年报</td><td>2026-04</td><td>—</td><td>待核实</td></tr>
-    <tr><td>美国钢铝关税</td><td>2025 年 6 月对钢铝产品加征 50% 关税</td><td>二级</td><td>官方贸易政策通报</td><td>2025-06</td><td>—</td><td>待核实</td></tr>
-    <tr><td>自有品牌占比目标</td><td>2028 年接近制造业务占比</td><td>二级</td><td>管理层公开表述转述</td><td>2026</td><td>—</td><td>待核实</td></tr>
-    <tr><td>嘉益股份 2026H1 指标</td><td>营收 −26.10%，净利 −44.10%，净利率 16.46%，境外占比 91.73%</td><td>一级</td><td>该公司 2026 年半年度报告</td><td>2026-08</td><td>—</td><td>已核实</td></tr>
-    <tr><td>同富股份 2026H1 指标</td><td>营收 +15%，净利 −40%，境外占比 79.05%</td><td>一级</td><td>该公司 2026 年半年度报告</td><td>2026-08</td><td>—</td><td>已核实</td></tr>
-    <tr><td>股价与估值</td><td>收盘 6.25 元，市值 34.99 亿元，市净率 1.44 倍，市盈率 TTM 约 126 倍</td><td>二级</td><td>证券行情数据（取数日）</td><td>2026-09-18</td><td>—</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2026H1 营业收入</td><td>17.73 亿元，合并报表</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告利润表</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2026H1 归母净利润</td><td>4887 万元，同比 −46.50%</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告利润表</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2026H1 境外收入</td><td>15.34 亿元，占比 86.54%</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告分地区经营情况</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2026H1 经营活动现金流</td><td>−3473.67 万元</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告现金流量表</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2026H1 净利率</td><td>2.76%，由净利润与收入计算</td><td>二级</td><td>自行计算</td><td>2026-08</td><td>依据上列数据计算</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2025 年营业收入</td><td>32.38 亿元，同比 −2.80%</td><td>二级</td><td>财经媒体转述</td><td>2026-04</td><td>转述自 2025 年年度报告利润表</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>2025 年归母净利润</td><td>7020 万元，同比 −75.50%</td><td>二级</td><td>财经媒体转述</td><td>2026-04</td><td>转述自 2025 年年度报告利润表</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>嘉益股份 2026H1 指标</td><td>营收 −26.10%，净利 −44.10%，净利率 16.46%，境外占比 91.73%</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自嘉益股份 2026 年半年度报告</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>同富股份 2026H1 指标</td><td>营收 +15%，净利 −40%，境外占比 79.05%</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自同富股份 2026 年半年度报告</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>股价与估值</td><td>收盘 6.25 元，市值 34.99 亿元，市净率 1.44 倍，市盈率 TTM 约 126 倍</td><td>二级</td><td>证券行情数据</td><td>2026-09-18</td><td>行情数据；静态口径约 49.84 倍</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>2026H1 财务费用</td><td>5476.54 万元，同比 +829.88%</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告；单一渠道，未获交叉印证</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>2026H1 汇兑损益</td><td>由上年同期 +885 万元转为 −5378 万元</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告附注；单一渠道，未获交叉印证</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>泰国基地经营数据</td><td>2026H1 收入 3.51 亿元，净亏 3402 万元（含汇兑损失 2765 万元）</td><td>二级</td><td>财经媒体转述</td><td>2026-08</td><td>转述自 2026 年半年度报告；单一渠道，未获交叉印证</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>客户集中度</td><td>前五大客户占收入约 68.4%</td><td>二级</td><td>媒体转述</td><td>2026-04</td><td>转述自 2025 年年度报告；单一渠道</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>美国钢铝关税</td><td>2025 年 6 月对钢铝产品加征 50% 关税</td><td>二级</td><td>贸易政策通报转述</td><td>2025-06</td><td>政策通报，未取得原始文件编号</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>自有品牌占比目标</td><td>2028 年接近制造业务占比</td><td>二级</td><td>管理层公开表述转述</td><td>2026</td><td>管理层表述，单一渠道</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>杯壶行业市场规模</td><td>2021 年 326.03 亿元，2026 年预测 564.66 亿元</td><td>二级</td><td>行业研究机构</td><td>2026</td><td>行业研究报告，未取得原始统计文件</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>行业集中度</td><td>CR4 不足 20%，低于家电与美妆品类；全球前十合计约 55%</td><td>二级</td><td>行业研究机构</td><td>2026</td><td>行业研究报告，未取得原始测算</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="ok"><td>产业集群数据</td><td>"永武缙"集群产量与出口量占全国 70% 以上；永康规上企业 248 家，年产值 180 亿元</td><td>二级</td><td>经济日报、人民网</td><td>2026-08</td><td>权威媒体报道，多源一致</td><td>已核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>中国保温杯出口</td><td>2025 年出口金额约 50.70 亿美元；2026 年一季度出口额突破 50 亿元</td><td>二级</td><td>行业研究机构、海关总署数据转述</td><td>2026</td><td>不同来源口径不一致，本报告未采用具体数值</td><td>待核实</td></tr>
+    <tr data-level="2" data-status="pending"><td>行业技术结构</td><td>真空绝热 34%、智能温显 28%、材料应用 19%、涂层 11%；2025 年专利超 2400 件</td><td>二级</td><td>行业研究机构</td><td>2026</td><td>行业研究报告，未取得专利数据库原始数据</td><td>待核实</td></tr>
   </tbody>
 </table>
 
 <footer class="rpt">
   <p>本报告依据公开信息编制，所引数据均标注来源与层级，未核实信息不作为论据。报告中的判断为本方法框架下的分析结论，不构成投资决策依据。</p>
 </footer>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.filters button');
+  var rows = document.querySelectorAll('#sources tbody tr');
+  Array.prototype.forEach.call(btns, function(b){
+    b.addEventListener('click', function(){
+      Array.prototype.forEach.call(btns, function(x){ x.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true');
+      var f = b.getAttribute('data-filter');
+      Array.prototype.forEach.call(rows, function(r){
+        var lvl = r.getAttribute('data-level');
+        var st = r.getAttribute('data-status');
+        var show = (f === 'all') || (f === 'level1' && lvl === '1')
+                || (f === 'level2' && lvl === '2') || (f === 'pending' && st === 'pending');
+        r.classList.toggle('hide', !show);
+      });
+    });
+  });
+  function beforePrint(){
+    Array.prototype.forEach.call(document.querySelectorAll('details'), function(x){ x.open = true; });
+    Array.prototype.forEach.call(rows, function(r){ r.classList.remove('hide'); });
+  }
+  window.addEventListener('beforeprint', beforePrint);
+})();
+</script>
 
 </div>
 </body>
