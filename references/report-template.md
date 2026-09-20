@@ -327,6 +327,9 @@
   <button type="button" data-filter="all" aria-pressed="true">全部</button>
   <button type="button" data-filter="level1" aria-pressed="false">一级来源</button>
   <button type="button" data-filter="level2" aria-pressed="false">二级来源</button>
+  <!-- 仅当来源表存在三级来源行时保留本行，并在脚本的显示判断中补入 level3 一项；
+       否则三级行会随任一层级筛选消失且无法单独筛出。 -->
+  <button type="button" data-filter="level3" aria-pressed="false">三级来源</button>
   <button type="button" data-filter="pending" aria-pressed="false">待核实</button>
 </div>
 <table>
@@ -357,7 +360,8 @@
         var lvl = r.getAttribute('data-level');
         var st = r.getAttribute('data-status');
         var show = (f === 'all') || (f === 'level1' && lvl === '1')
-                || (f === 'level2' && lvl === '2') || (f === 'pending' && st === 'pending');
+                || (f === 'level2' && lvl === '2') || (f === 'level3' && lvl === '3')
+                || (f === 'pending' && st === 'pending');
         r.classList.toggle('hide', !show);
       });
     });
@@ -421,6 +425,12 @@
 - 每张图表的标题、来源、读图要点三行齐全
 - 涨跌配色遵循 A 股惯例，且全篇一致
 - 若有投资建议节：估值标注了口径、取数日期与来源
+- 若有估值参照节：口径表含口径与取数时点，未只给单一数字
+- 若有估值参照节：历史分位与同业分位分别标注，同业名单与同群对照组一致
+- 若有估值参照节：已给出"当前价格隐含的前提是"形式的检验句，且指向具体经营结果
+- 若有估值参照节：结论与可转换性判断一致，且与投资建议节无矛盾
+- 标的亏损或属周期性行业时，已按 `valuation-guide.md` 的特殊情形规则处理，未硬套市盈率
+- 估值参照中若引入假设，其取值依据已写入风险提示或本节边界
 - 若有投资建议节：观察点控制在三到四个，且可由公开信息验证
 - 若有投资建议节：未出现"建议买入""目标价"这类表述
 - 数据来源表七个字段齐全，层级与状态无遗漏
