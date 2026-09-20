@@ -93,18 +93,47 @@
 
 示例中的判断与结论仅作方法演示，不构成任何投资依据。
 
-## 安装
+## 安装与适用环境
+
+**这是一个技能（Skill），需要装进支持技能机制的 agent 环境才能运行**，例如 WorkBuddy、Claude Code 等。它本身不是可独立运行的软件，也不提供网页界面。
+
+如果接收方没有这类环境，能用的部分是：本 README 描述的方法论、`references/` 下的八份规范文档，以及 `examples/` 中可直接用浏览器打开的示例报告。分析能力本身无法脱离 agent 环境使用。
+
+### 方式一：从 GitHub 安装（推荐）
 
 ```bash
-# 克隆到本地技能目录
 git clone https://github.com/1926105965/company-business-model-research.git
-
-# WorkBuddy / Claude Code 用户级技能目录
-cp -r company-business-model-research ~/.workbuddy/skills/
-
-# Windows (PowerShell)
-Copy-Item -Recurse company-business-model-research "$env:USERPROFILE\.workbuddy\skills\"
 ```
+
+把得到的 `company-business-model-research` 整个文件夹放进技能目录。
+
+Windows（PowerShell）：
+
+```powershell
+Copy-Item -Recurse .\company-business-model-research "$env:USERPROFILE\.workbuddy\skills\"
+```
+
+macOS / Linux：
+
+```bash
+cp -r company-business-model-research ~/.workbuddy/skills/
+```
+
+Claude Code 的技能目录为 `~/.claude/skills/`，其余步骤相同。
+
+### 方式二：不装 Git，直接下载文件夹
+
+在仓库页面点 `Code` → `Download ZIP`，解压后把 `company-business-model-research` 文件夹放进技能目录。注意解压后可能多一层同名目录，须让 `SKILL.md` 直接位于 `技能目录/company-business-model-research/` 之下。
+
+### 方式三：使用打包文件
+
+发布页提供的 `company-business-model-research.skill` 是一个压缩包，改名为 `.zip` 后解压，同样把文件夹放进技能目录即可。适用于通过聊天工具或邮件传递的场景。
+
+### 两点注意
+
+文件夹名须保持为 `company-business-model-research`，与 `SKILL.md` 中 `name` 字段一致，改名可能导致技能无法被识别。
+
+**本技能不依赖其他技能。** 执行所需的全部内容都在这一个目录里。`SKILL.md`「与其他技能的配合」一节所列的若干技能均为可选，环境中有则更顺手，没有也不影响使用。
 
 安装后即可在对话中直接触发：
 
