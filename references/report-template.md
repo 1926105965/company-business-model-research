@@ -78,6 +78,20 @@
   .bracket{color:var(--ink-2);font-size:13px;}
   footer.rpt{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);
     font-size:12px;color:var(--ink-2);}
+  /* 结论卡展开依据 */
+  .card details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px;}
+  .card details summary{cursor:pointer;font-size:13px;color:var(--ink-2);list-style:none;}
+  .card details summary::-webkit-details-marker{display:none;}
+  .card details summary::before{content:"▸ ";}
+  .card details[open] summary::before{content:"▾ ";}
+  .card details .basis{font-size:13px;color:var(--ink-2);margin-top:6px;line-height:1.7;}
+  /* 数据来源表筛选 */
+  .filters{margin:14px 0 6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .filters span{font-size:13px;color:var(--ink-2);}
+  .filters button{font:inherit;font-size:13px;padding:4px 12px;border:1px solid var(--line);
+    background:var(--paper);color:var(--ink-2);border-radius:14px;cursor:pointer;}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+  tr.hide{display:none;}
   @media (max-width:768px){
     body{font-size:14px;line-height:1.7;}
     .wrap{padding:0 14px 40px;}
@@ -100,6 +114,8 @@
     h2{break-after:avoid;}
     table{break-inside:auto;}
     tr{break-inside:avoid;}
+    .filters{display:none;}
+    tr.hide{display:table-row;}
   }
 </style>
 </head>
@@ -137,10 +153,18 @@
   <div class="card [struct|trans|stage]">
     <h4>[该层面的判断，如"收入层面"]</h4>
     <p>[一句判断]</p>
+    <details>
+      <summary>看依据</summary>
+      <div class="basis">[支撑该判断的数据项与来源，逐条列出。格式：指标：数值（来源层级·文件名称，报告期）]</div>
+    </details>
   </div>
   <div class="card [struct|trans|stage]">
     <h4>[另一层面，如"利润层面"]</h4>
     <p>[一句判断]</p>
+    <details>
+      <summary>看依据</summary>
+      <div class="basis">[同上]</div>
+    </details>
   </div>
 </div>
 <p>[在三到五句内说清：模式定位、风险位置、可转换性判断、判断失效的条件。]</p>
@@ -298,19 +322,53 @@
 <p>[说明估值取自哪个时点、市场情绪未纳入、建议基于公开信息、不构成投资决策依据。]</p>
 
 <h2 id="sources">数据来源</h2>
+<div class="filters">
+  <span>筛选：</span>
+  <button type="button" data-filter="all" aria-pressed="true">全部</button>
+  <button type="button" data-filter="level1" aria-pressed="false">一级来源</button>
+  <button type="button" data-filter="level2" aria-pressed="false">二级来源</button>
+  <button type="button" data-filter="pending" aria-pressed="false">待核实</button>
+</div>
 <table>
   <thead><tr>
     <th>数据项</th><th>数值／口径</th><th>层级</th><th>来源名称</th>
     <th>日期</th><th>定位</th><th>状态</th>
   </tr></thead>
   <tbody>
-    <tr><td></td><td></td><td>一级</td><td></td><td></td><td></td><td>已核实</td></tr>
+    <tr data-level="1" data-status="ok"><td></td><td></td><td>一级</td><td></td><td></td><td></td><td>已核实</td></tr>
   </tbody>
 </table>
+<p class="src-note">[筛选按钮的 data-filter 取值为 all／level1／level2／pending。每行须标注 data-level（1 或 2）与 data-status（ok 或 pending），缺一即筛选失效。]</p>
 
 <footer class="rpt">
-  <p>本报告依据公开信息编制，所引数据均标注来源与层级，未核实信息不作为论据。报告不构成投资决策依据。</p>
+  <p>本报告依据公开信息编制，所引数据均标注来源与核实状态，核实状态见上方数据来源表。报告中的判断为本方法框架下的分析结论，不构成投资决策依据。</p>
 </footer>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.filters button');
+  var rows = document.querySelectorAll('#sources tbody tr');
+  Array.prototype.forEach.call(btns, function(b){
+    b.addEventListener('click', function(){
+      Array.prototype.forEach.call(btns, function(x){ x.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true');
+      var f = b.getAttribute('data-filter');
+      Array.prototype.forEach.call(rows, function(r){
+        var lvl = r.getAttribute('data-level');
+        var st = r.getAttribute('data-status');
+        var show = (f === 'all') || (f === 'level1' && lvl === '1')
+                || (f === 'level2' && lvl === '2') || (f === 'pending' && st === 'pending');
+        r.classList.toggle('hide', !show);
+      });
+    });
+  });
+  function beforePrint(){
+    Array.prototype.forEach.call(document.querySelectorAll('details'), function(x){ x.open = true; });
+    Array.prototype.forEach.call(rows, function(r){ r.classList.remove('hide'); });
+  }
+  window.addEventListener('beforeprint', beforePrint);
+})();
+</script>
 
 </div>
 </body>
@@ -331,6 +389,21 @@
 | 图 6（可选） | 既定目标与当前水平的距离 | 进度条形图 |
 
 每张图表下方的三行标注（标题、来源、读图要点）不可省略。图表中的数据须与正文一致，取整规则统一。
+
+## 交互元素
+
+报告须含四类交互元素，规范见 `visual-guide.md`。骨架中已内置实现，成稿时保留并补齐内容。
+
+| 元素 | 位置 | 实现方式 |
+|---|---|---|
+| 结论卡展开依据 | 核心结论各卡片内 | `details` 与 `summary`，展开后显示支撑该判断的数据与来源 |
+| 数据来源表筛选 | 数据来源表上方 | 按钮组切换行的显示，按层级与核实状态筛 |
+| 图表数值提示 | 各图表图形元素内 | SVG 的 `title`，悬停显示精确值 |
+| 图表口径切换 | 多指标对照图 | 按钮切换两组数据，避免并排成两张小图 |
+
+**渐进增强是硬要求。** 关闭脚本后报告的全部内容仍须可读，打印预览中不得有内容因折叠或筛选而缺失。骨架中的脚本在 `beforeprint` 时自动展开全部折叠项并清除筛选，成稿时不得删去该处理。
+
+**交互控件须有文字标签**，不用图标代替。来源表的 `data-level` 与 `data-status` 两个属性不得遗漏，否则筛选失效。
 
 ## 写作检查
 
@@ -362,4 +435,7 @@
 - 柱状图的正负以方向区分，零线有标注，方向含义写入读图要点
 - 所有 SVG 文字坐标加上所属分组偏移量后仍在画布范围内
 - 核心结论未单独依赖"待核实"数据；若确有依赖，已在数据边界中写明影响范围
+- 四类交互元素齐备，且关闭脚本后内容仍完整可读
+- 打印预览中无内容因折叠或筛选而缺失
+- 来源表各行的 `data-level` 与 `data-status` 已标注，筛选可用
 - 已按 `lieflat-less-ai-tone` 规则检查，并符合本技能的学术语体要求
