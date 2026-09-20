@@ -24,7 +24,10 @@
 | `references/data-checklist.md` | 采集清单与字段要求 | 分析方法、写作规范 |
 | `references/source-policy.md` | 来源分级、使用条件、标注要求 | 具体行业的数据字段 |
 | `references/report-template.md` | HTML 页面骨架与各节写作提示 | 图表配色细节（属 visual-guide） |
-| `references/visual-guide.md` | 图表类型映射、配色、标注、可访问性 | 章节结构与写作提示 |
+| `references/visual-guide.md` | 图表类型映射、配色、标注、交互元素实现、可访问性 | 章节结构与写作提示 |
+| `references/interaction-guide.md` | 对话互动的边界、澄清项、分歧处理、跨期跟踪 | 报告页面的交互元素实现（属 visual-guide） |
+| `references/valuation-guide.md` | 估值口径与分位、隐含预期反推、特殊情形处理 | 目标价与买卖结论 |
+| `references/viewpoint-digest.md` | 外部观点辑录的隔离要求、收录门槛、市场反应记录 | 对收录内容的评价、由收录内容推出的结论 |
 
 ## 修改要求
 
