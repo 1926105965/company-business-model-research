@@ -58,12 +58,21 @@ def check_format(h):
     chk("无残留 Markdown 加粗 (**)", star == 0, f"计数={star}")
     chk("无行首 Markdown 标题", not re.search(r"^\s*#{1,6}\s", h, re.M))
     chk("无表头管道符表格", not re.search(r"^\|.*\|$", h, re.M))
+    # HTML 与 SVG 标签都须配对。
+    # SVG 图形元素曾长期不在本列表内，导致 15 处未闭合的 <rect> 全部漏检，
+    # 报告仍显示"全部通过"。凡图表中会出现的标签都要列入。
     for tag in ["div", "table", "svg", "g", "text", "script", "details",
                 "figure", "nav", "header", "footer", "tbody", "thead",
-                "tr", "td", "th"]:
-        o = len(re.findall(r"<" + tag + r"[\s>]", h))
+                "tr", "td", "th", "ul", "ol", "li", "p", "strong", "span",
+                # SVG 图形与容器元素
+                "rect", "circle", "ellipse", "path", "polygon", "polyline",
+                "line", "title", "tspan", "defs", "linearGradient",
+                "radialGradient", "stop", "clipPath", "marker", "filter",
+                "feDropShadow", "feGaussianBlur"]:
+        o = len(re.findall(r"<" + tag + r"[\s/>]", h))
         c = len(re.findall(r"</" + tag + r">", h))
-        chk(f"标签配对 <{tag}>", o == c, f"{o}/{c}")
+        sc = len(re.findall(r"<" + tag + r"\b[^>]*/>", h))
+        chk(f"标签配对 <{tag}>", o == c + sc, f"开{o} 闭{c} 自闭合{sc}")
 
 
 # ---------------------------------------------------------------- 2. 交互元素
