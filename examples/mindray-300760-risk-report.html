@@ -149,13 +149,16 @@
     th,td{padding:10px 12px;font-size:13px;}
     .meta{flex-direction:column;gap:var(--space-sm);}
   }
-  /* 柱状图入场生长。三条硬规则齐全：transform-box、打印禁用、减动效处理。
-     正值柱自零线向上生长（origin 为底边），负值柱自零线向下生长（origin 为顶边）。 */
+  /* 柱状图生长动画：按需触发，不在页面加载时播放。
+     基础状态不带 animation，柱子始终是最终高度——脚本失效、打印、未交互时都正常。
+     两种触发方式：视图滚动到该图（脚本加 .in-view），或鼠标悬停在图上（纯 CSS）。 */
   @keyframes bar-grow{from{transform:scaleY(0);}to{transform:scaleY(1);}}
-  .bar-up{transform-box:fill-box;transform-origin:bottom;
-    animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;}
-  .bar-down{transform-box:fill-box;transform-origin:top;
-    animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes bar-replay{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+  .bar-up{transform-box:fill-box;transform-origin:bottom;}
+  .bar-down{transform-box:fill-box;transform-origin:top;}
+  .bar-up.in-view,.bar-down.in-view{animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;}
+  figure:hover .bar-up,
+  figure:hover .bar-down{animation:bar-replay .6s cubic-bezier(.34,1.56,.64,1) both;}
   @media (prefers-reduced-motion:reduce){
     .bar-up,.bar-down{animation:none;transform:none;}
   }
@@ -811,6 +814,26 @@
     document.getElementById('fig3-np').style.display = 'none';
   }
   window.addEventListener('beforeprint', beforePrint);
+
+  /* 柱状图生长：视图滚动到该图时播放一次。
+     脚本失效时 .in-view 永不被加上，柱子保持最终高度，内容不受影响。 */
+  var bars = document.querySelectorAll('.bar-up,.bar-down');
+  if(bars.length && 'IntersectionObserver' in window){
+    var growObs = new IntersectionObserver(function(entries){
+      Array.prototype.forEach.call(entries, function(en){
+        if(!en.isIntersecting) return;
+        en.target.classList.add('in-view');
+        growObs.unobserve(en.target);
+      });
+    }, { threshold: 0.35 });
+    Array.prototype.forEach.call(bars, function(b){
+      /* 播完即摘下类，让鼠标悬停的再次播放互不干扰 */
+      b.addEventListener('animationend', function(ev){
+        if(ev.animationName === 'bar-grow'){ b.classList.remove('in-view'); }
+      });
+      growObs.observe(b);
+    });
+  }
 })();
 </script>
 

@@ -240,7 +240,7 @@
 |---|---|---|
 | 卡片悬停上浮与阴影 | CSS transition | 没有悬停反应 |
 | 导航栏滚动阴影 | CSS transition，JS 只加 class | 没有阴影 |
-| 柱状图入场生长 | CSS `@keyframes` + 三条硬规则（见下） | 若漏掉硬规则会画错或印不出来 |
+| 柱状图生长（按需触发） | CSS `@keyframes` + 三条硬规则（见下） | 触发用的类不会被加上，柱子保持最终高度 |
 
 ### 不可用
 
@@ -253,48 +253,80 @@
 
 滚动渐入没有纯 CSS 的替代方案：`:target` 只对 URL 锚点生效，`animation-timeline: scroll()` 的浏览器支持率仍低，`@starting-style` 只管入场起始值。凡是初始状态为"不可见"、靠脚本改为可见的设计，都违反渐进增强，一律不用。
 
-### 柱状图入场动画的三条硬规则
+### 柱状图生长动画
 
-三条须同时满足。缺任何一条都会出问题，前两条已实测确认。
+**按需触发，不在页面加载时播放。** 这是本节首要的一条。
 
-**其一，`transform-box: fill-box`。** 不加这句，SVG 元素的 `transform-origin` 参照的是整个画布而不是元素自身，柱子会被水平压缩并塌陷到画布一角、脱离零线、与下方标签错位。实测对照图见本技能仓库的示例说明。
+加载时播放有三个问题：读者滚到图表位置时动画早已播完，等于白做；打印或截图有概率落在生长中的中间态；页面一打开所有图同时动，观感嘈杂。改成读者真正看到这张图时再播，三个问题一并解决。
 
-**其二，打印时禁用动画。** 打印或导出 PDF 若发生在动画播放期间，柱子高度还是生长中的中间值。实测确认：动画设 3 秒、在第 300 毫秒打印，未做处理的那份 PDF 里**一根柱子都没有**，只剩零线与文字标签。这是因为 `animation-fill-mode: both` 让元素在动画未完成时停在起始状态。
+两种触发方式可同时配，互不冲突：
 
-**其三，尊重减动效设置。** 用户在系统里关掉了动画时，应直接呈现最终状态。
+**滚动到该图时播放。** 用 `IntersectionObserver` 监听柱子，进入视口时加一个类。类的添加与移除不影响内容：脚本失效时它永不会被加上，柱子保持最终高度。
+
+**鼠标悬停在图上时播放。** 用 `figure:hover` 即可，纯 CSS，不依赖脚本。悬停与滚动两个动画用**不同的 `@keyframes` 名**，否则两者在同一元素上的 `animation` 值相同，浏览器视为未变化，不会重播；滚动那次播完后即摘掉类，避免鼠标移出时又触发一次。
+
+**关键：动画的"不可见初始态"不能写在基础样式里。** 基础类只声明 `transform-box` 与 `transform-origin`，不写 `animation`。这样柱子的默认状态就是最终高度，只有触发时才临时加上动画。若把 `animation: … both` 直接写进基础类，元素在动画开始前就处于 `scaleY(0)`，一旦脚本失效、渲染器不支持动画，或打印落在中间态，柱子就是不可见的。**这与"滚动渐入"被禁用的是同一条理由**，区别只在于初始状态写在哪里。
 
 ```css
-@keyframes bar-grow{
-  from{transform:scaleY(0);}
-  to{transform:scaleY(1);}
-}
-/* 正值柱：在零线上方，自底边向上生长 */
-.bar-up{
-  transform-box:fill-box;      /* 其一：参照元素自身，缺了位置会错 */
-  transform-origin:bottom;
+@keyframes bar-grow{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+@keyframes bar-replay{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+
+/* 基础状态：不带 animation，柱子始终是最终高度 */
+.bar-up{transform-box:fill-box;transform-origin:bottom;}
+.bar-down{transform-box:fill-box;transform-origin:top;}
+
+/* 触发一：视图滚动到该图（由脚本加 .in-view） */
+.bar-up.in-view,.bar-down.in-view{
   animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;
 }
-/* 负值柱：在零线下方，自顶边向下生长 */
-.bar-down{
-  transform-box:fill-box;
-  transform-origin:top;
-  animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;
+/* 触发二：鼠标悬停在图上（纯 CSS） */
+figure:hover .bar-up,figure:hover .bar-down{
+  animation:bar-replay .6s cubic-bezier(.34,1.56,.64,1) both;
 }
+
 @media print{
-  .bar-up,.bar-down{animation:none;transform:none;}   /* 其二：打印直接给终值 */
+  .bar-up,.bar-down{animation:none;transform:none;}
 }
 @media (prefers-reduced-motion:reduce){
-  .bar-up,.bar-down{animation:none;transform:none;}   /* 其三 */
+  .bar-up,.bar-down{animation:none;transform:none;}
 }
 ```
+
+```javascript
+var bars = document.querySelectorAll('.bar-up,.bar-down');
+if (bars.length && 'IntersectionObserver' in window) {
+  var obs = new IntersectionObserver(function (entries) {
+    Array.prototype.forEach.call(entries, function (en) {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in-view');
+      obs.unobserve(en.target);
+    });
+  }, { threshold: 0.35 });
+  Array.prototype.forEach.call(bars, function (b) {
+    /* 播完摘掉类，让悬停的再次播放互不干扰 */
+    b.addEventListener('animationend', function (ev) {
+      if (ev.animationName === 'bar-grow') b.classList.remove('in-view');
+    });
+    obs.observe(b);
+  });
+}
+```
+
+### 三条不可省的硬规则
+
+**其一，`transform-box: fill-box`。** 不加这句，SVG 元素的 `transform-origin` 参照的是整个画布而不是元素自身，柱子会被水平压缩并塌陷到画布一角、脱离零线、与下方标签错位。
+
+**其二，打印时禁用动画。** 打印或导出 PDF 若发生在动画播放期间，柱子高度还是生长中的中间值。实测确认：动画设 3 秒、在第 300 毫秒打印，未做处理的那份 PDF 里**一根柱子都没有**，只剩零线与文字标签。这是因为 `animation-fill-mode: both` 让元素在动画未完成时停在起始状态。按需触发已大幅降低撞上中间态的概率，但读者在悬停状态下按打印键仍会遇到，故这条不能省。
+
+**其三，尊重减动效设置。** 用户在系统里关掉了动画时，应直接呈现最终状态。
 
 **正负柱须用不同的 `transform-origin`。** 同一张图里既有正值柱又有负值柱时，用同一个 origin 会让其中一类从错误的一端生长。正值柱从零线向上，锚点在底边，用 `bottom`；负值柱从零线向下，锚点在顶边，用 `top`。两类各配一个类，按柱子与零线的位置分配。
 
 **有口径切换的图不加此效果。** 若图内用 `display: none` 切换两组数据，被隐藏的那组在重新显示时动画会重播，每次切换都要等它长完才能看到完整数据，对比较读数是干扰。
 
-**动画时长宜短。** 本条规则允许入场动画，但不是鼓励。0.8 秒以内为宜，延迟逐柱递增不超过 0.3 秒。时间越长，打印与截图落在中间态的概率越高。每根柱子都加延迟形成波浪效果，会让整组柱子完成生长的时间显著拉长，不推荐。
+**动画时长宜短。** 本条规则允许生长动画，但不是鼓励。0.8 秒以内为宜，不宜逐柱递增延迟做波浪效果，那会让整组柱子完成生长的时间显著拉长。时间越长，打印与截图落在中间态的概率越高。
 
-环形图的入场动画同理，用 `stroke-dashoffset` 实现，同样须配打印与减动效两条处理。
+环形图的生长动画同理，用 `stroke-dashoffset` 实现，同样按需触发并配打印与减动效两条处理。
 
 ### 技术要求
 
