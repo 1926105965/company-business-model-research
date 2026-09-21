@@ -268,18 +268,29 @@
   from{transform:scaleY(0);}
   to{transform:scaleY(1);}
 }
-.bar-animated{
+/* 正值柱：在零线上方，自底边向上生长 */
+.bar-up{
   transform-box:fill-box;      /* 其一：参照元素自身，缺了位置会错 */
-  transform-origin:bottom;     /* 从零线位置向上生长 */
-  animation:bar-grow .8s cubic-bezier(.34,1.56,.64,1) both;
+  transform-origin:bottom;
+  animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+/* 负值柱：在零线下方，自顶边向下生长 */
+.bar-down{
+  transform-box:fill-box;
+  transform-origin:top;
+  animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;
 }
 @media print{
-  .bar-animated{animation:none;transform:none;}   /* 其二：打印直接给终值 */
+  .bar-up,.bar-down{animation:none;transform:none;}   /* 其二：打印直接给终值 */
 }
 @media (prefers-reduced-motion:reduce){
-  .bar-animated{animation:none;transform:none;}   /* 其三 */
+  .bar-up,.bar-down{animation:none;transform:none;}   /* 其三 */
 }
 ```
+
+**正负柱须用不同的 `transform-origin`。** 同一张图里既有正值柱又有负值柱时，用同一个 origin 会让其中一类从错误的一端生长。正值柱从零线向上，锚点在底边，用 `bottom`；负值柱从零线向下，锚点在顶边，用 `top`。两类各配一个类，按柱子与零线的位置分配。
+
+**有口径切换的图不加此效果。** 若图内用 `display: none` 切换两组数据，被隐藏的那组在重新显示时动画会重播，每次切换都要等它长完才能看到完整数据，对比较读数是干扰。
 
 **动画时长宜短。** 本条规则允许入场动画，但不是鼓励。0.8 秒以内为宜，延迟逐柱递增不超过 0.3 秒。时间越长，打印与截图落在中间态的概率越高。每根柱子都加延迟形成波浪效果，会让整组柱子完成生长的时间显著拉长，不推荐。
 

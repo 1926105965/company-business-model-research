@@ -149,6 +149,16 @@
     th,td{padding:10px 12px;font-size:13px;}
     .meta{flex-direction:column;gap:var(--space-sm);}
   }
+  /* 柱状图入场生长。三条硬规则齐全：transform-box、打印禁用、减动效处理。
+     正值柱自零线向上生长（origin 为底边），负值柱自零线向下生长（origin 为顶边）。 */
+  @keyframes bar-grow{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+  .bar-up{transform-box:fill-box;transform-origin:bottom;
+    animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;}
+  .bar-down{transform-box:fill-box;transform-origin:top;
+    animation:bar-grow .6s cubic-bezier(.34,1.56,.64,1) both;}
+  @media (prefers-reduced-motion:reduce){
+    .bar-up,.bar-down{animation:none;transform:none;}
+  }
   @page{margin:18mm 16mm;}
   @media print{
     body{background:#fff;font-size:12pt;line-height:1.6;}
@@ -161,6 +171,7 @@
     .filters{display:none;}
     tr.hide{display:table-row;}
     tbody tr:hover{background:transparent;}
+    .bar-up,.bar-down{animation:none;transform:none;}
   }
 </style>
 </head>
@@ -334,14 +345,14 @@
         <line x1="-10" y1="203" x2="620" y2="203" stroke="#f1f5f9" stroke-width="1"/>
         <text x="22" y="207" text-anchor="end" font-size="10.5" fill="#64748b">−20%</text>
 
-        <rect x="58.5" y="142" width="42" height="28.7" rx="4" fill="url(#f2-down)" opacity="0.5"><title>体外诊断 2025 年全年营收同比 −9.41%</title></rect>
-        <rect x="104.5" y="112.78" width="42" height="29.22" rx="4" fill="url(#f2-up)" opacity="0.92"><title>体外诊断 2026 年上半年营收同比 +9.58%</title></rect>
-        <rect x="203.5" y="142" width="42" height="60.39" rx="4" fill="url(#f2-down)" opacity="0.5"><title>生命信息与支持 2025 年全年营收同比 −19.80%</title></rect>
-        <rect x="249.5" y="142" width="42" height="0.34" rx="4" fill="url(#f2-down)" opacity="0.92"><title>生命信息与支持 2026 年上半年营收同比 −0.11%</title></rect>
-        <rect x="348.5" y="142" width="42" height="54.96" rx="4" fill="url(#f2-down)" opacity="0.5"><title>医学影像 2025 年全年营收同比 −18.02%</title></rect>
-        <rect x="394.5" y="142" width="42" height="17.63" rx="4" fill="url(#f2-down)" opacity="0.92"><title>医学影像 2026 年上半年营收同比 −5.78%</title></rect>
-        <rect x="493.5" y="23.51" width="42" height="118.49" rx="4" fill="url(#f2-up)" opacity="0.5"><title>新兴业务 2025 年全年营收同比 +38.85%</title></rect>
-        <rect x="539.5" y="82.25" width="42" height="59.75" rx="4" fill="url(#f2-up)" opacity="0.92"><title>新兴业务 2026 年上半年营收同比 +19.59%</title></rect>
+        <rect class="bar-down" x="58.5" y="142" width="42" height="28.7" rx="4" fill="url(#f2-down)" opacity="0.5"><title>体外诊断 2025 年全年营收同比 −9.41%</title></rect>
+        <rect class="bar-up" x="104.5" y="112.78" width="42" height="29.22" rx="4" fill="url(#f2-up)" opacity="0.92"><title>体外诊断 2026 年上半年营收同比 +9.58%</title></rect>
+        <rect class="bar-down" x="203.5" y="142" width="42" height="60.39" rx="4" fill="url(#f2-down)" opacity="0.5"><title>生命信息与支持 2025 年全年营收同比 −19.80%</title></rect>
+        <rect class="bar-down" x="249.5" y="142" width="42" height="0.34" rx="4" fill="url(#f2-down)" opacity="0.92"><title>生命信息与支持 2026 年上半年营收同比 −0.11%</title></rect>
+        <rect class="bar-down" x="348.5" y="142" width="42" height="54.96" rx="4" fill="url(#f2-down)" opacity="0.5"><title>医学影像 2025 年全年营收同比 −18.02%</title></rect>
+        <rect class="bar-down" x="394.5" y="142" width="42" height="17.63" rx="4" fill="url(#f2-down)" opacity="0.92"><title>医学影像 2026 年上半年营收同比 −5.78%</title></rect>
+        <rect class="bar-up" x="493.5" y="23.51" width="42" height="118.49" rx="4" fill="url(#f2-up)" opacity="0.5"><title>新兴业务 2025 年全年营收同比 +38.85%</title></rect>
+        <rect class="bar-up" x="539.5" y="82.25" width="42" height="59.75" rx="4" fill="url(#f2-up)" opacity="0.92"><title>新兴业务 2026 年上半年营收同比 +19.59%</title></rect>
 
         <text x="79.5" y="184.7" text-anchor="middle" font-size="11.5" fill="#22c55e" font-weight="600">−9.4%</text>
         <text x="125.5" y="105.8" text-anchor="middle" font-size="11.5" fill="#ef4444" font-weight="600">+9.6%</text>
