@@ -96,6 +96,73 @@ def check_interaction(h):
             f"按钮 {sorted(mb)}，脚本 {sorted(ml)}", warn_only=True)
 
 
+# ------------------------------------------------- 2b. 渐进增强（动态效果）
+def media_block(css, name):
+    """取出指定 @media 块的正文。按大括号配对推进，避免非贪婪匹配被内层括号截断。"""
+    out = []
+    for m in re.finditer(r"@media\s+([^{]+)\{", css):
+        if name not in m.group(1):
+            continue
+        i = m.end() - 1
+        depth = 0
+        for j in range(i, len(css)):
+            if css[j] == "{":
+                depth += 1
+            elif css[j] == "}":
+                depth -= 1
+                if depth == 0:
+                    out.append(css[m.end():j])
+                    break
+    return "\n".join(out)
+
+
+def check_enhancement(h):
+    """判据：效果坏掉时是什么样子。
+
+    坏掉只是少个阴影，可以用；坏掉会内容消失、数字错误、图表空缺，不能用。
+    本节各项均来自实测，不是推断。
+    """
+    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", h, re.S))
+    body = re.sub(r"<style[^>]*>.*?</style>", "", h, flags=re.S)
+    body = re.sub(r"<script[^>]*>.*?</script>", "", body, flags=re.S)
+
+    # 禁用项一：初始不可见、靠脚本恢复可见
+    reveal = re.findall(r'class="[^"]*\breveal\b', body)
+    chk("无滚动渐入（初始不可见靠脚本恢复）", not reveal,
+        f"发现 {len(reveal)} 处 .reveal，脚本失效时内容整片消失" if reveal else "")
+
+    # 禁用项二：数字跳动，初始值只能是错数
+    count = [k for k in ("data-target", "data-count") if k in body]
+    chk("无数字跳动（脚本失效时显示错数）", not count,
+        f"发现 {'/'.join(count)}" if count else "")
+
+    # 用了 CSS 动画，须配打印与减动效两条处理
+    anims = [a for a in re.findall(r"animation\s*:\s*([^;]+);", css)
+             if "none" not in a.lower()]
+    if anims:
+        pb = media_block(css, "print")
+        chk("动画已在打印媒体中禁用", bool(re.search(r"animation\s*:\s*none", pb)),
+            "打印若落在动画途中，图表会停在中间态。实测未处理时打印件为空图")
+        chk("已处理 prefers-reduced-motion", "prefers-reduced-motion" in css,
+            "用了 CSS 动画但未处理系统的减动效设置")
+    else:
+        chk("未使用 CSS 动画（无需打印与减动效处理）", True)
+
+    # SVG 元素上的缩放变换须配 transform-box，否则参照画布而非元素自身
+    svg_bodies = "\n".join(re.findall(r"<svg[^>]*>.*?</svg>", body, re.S))
+    scale_cls = set()
+    for m in re.finditer(r"\.([A-Za-z0-9_-]+)\s*\{([^}]*)\}", css):
+        if re.search(r"transform\s*:\s*[^;]*scale", m.group(2)):
+            scale_cls.add(m.group(1))
+    used = [c for c in scale_cls
+            if re.search(r'class="[^"]*\b' + re.escape(c) + r"\b", svg_bodies)]
+    if used:
+        chk("SVG 缩放变换已配 transform-box", "transform-box" in css,
+            f"类 {sorted(used)} 用在 SVG 元素上，缺 transform-box 会塌陷错位")
+    else:
+        chk("未在 SVG 元素上使用缩放变换", True)
+
+
 # ---------------------------------------------------------------- 3. 样式
 def check_style(h):
     chk("窄屏响应式规则", "@media" in h and "max-width" in h,
@@ -533,6 +600,7 @@ def main():
 
     check_format(h)
     check_interaction(h)
+    check_enhancement(h)
     check_style(h)
     check_charts(h)
     check_bounds(h)
